@@ -8,7 +8,7 @@ function getPizzaGif(imageConceptResult, done) {
   var filename = imageConceptResult.concept + '.gif';
 
   var cmd = 'phantomjs stream-web-animation.js ' + url + ' | ' +
-    'ffmpeg -y -c:v png -f image2pipe -r 20 -t 5  -i - -c:v libx264 -pix_fmt yuv420p -movflags +faststart output.mp4';
+    'ffmpeg -y -c:v png -f image2pipe -r 20 -t 4  -i - -c:v libx264 -pix_fmt yuv420p -movflags +faststart output.mp4';
 
   exec(cmd, convertToGif);
 
