@@ -3,9 +3,8 @@ var config = require('./config');
 
 var Twit = require('twit');
 var async = require('async');
-var postImage = require('./post-image');
 var getRandomPizzaGif = require('./get-random-pizza-gif');
-var probable = require('probable');
+var postPizzaGif = require('./post-pizza-gif');
 
 var dryRun = false;
 
@@ -18,7 +17,7 @@ var twit = new Twit(config.twitter);
 async.waterfall(
   [
     obtainImage,
-    postPizzaGif
+    postImageToTwitter
   ],
   wrapUp
 );
@@ -31,26 +30,14 @@ function obtainImage(done) {
   getRandomPizzaGif(opts, done);
 }
 
-function postPizzaGif(gifResult, done) {
-  var caption = gifResult.concept + ' pizza';
-  var bangs = probable.roll(10);
-  var icons = probable.roll(10);
-  for (var i = 0; i < bangs; ++i) {
-    caption += '!';
-  }
-  for (var j = 0; j < icons; ++j) {
-    caption = '🍕' + caption + '🍕';
-  }
-  
-  var postImageOpts = {
+function postImageToTwitter(imageResult, done) {
+  var opts = {
     twit: twit,
     dryRun: dryRun,
-    filename: gifResult.filename,
-    altText: caption,
-    caption: caption
+    filename: imageResult.filename,
+    concept: imageResult.concept
   };
-
-  postImage(postImageOpts, done);
+  postPizzaGif(opts, done);
 }
 
 function wrapUp(error, data) {
