@@ -14,7 +14,7 @@ var url = system.args[1];
 
 var page = require('webpage').create(),
     address = url,
-    duration = 3, // duration of the video, in seconds
+    duration = 5, // duration of the video, in seconds
     framerate = 24, // number of frames per second. 24 is a good value.
     counter = 0;
 
@@ -35,6 +35,6 @@ page.open(address, function(status) {
                     phantom.exit();
                 }
             }, 1/framerate);
-        }, 200);
+        }, 10000);
     }
 });
